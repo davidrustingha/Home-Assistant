@@ -17,9 +17,7 @@
             {% set temp = states('sensor.[TEMP SENSOR ENTITY HERE]') |int %}
             {% set state = state_attr('climate.[CLIMATE ENTITY HERE]', 'current_temperature') |int %}
 
-            {% if state - temp < ('0' |int) %}
-              {{ offset - ((state - temp) * 100) }}
-            {% elif state - temp > ('0' |int) %}
+            {% if state - temp != ('0' |int) %}
               {{ offset - ((state - temp) * 100) }}
             {% elif state - temp == ('0' |int) %}
               {{ offset }}
