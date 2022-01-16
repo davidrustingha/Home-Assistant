@@ -9,7 +9,7 @@
   action:
     - service: deconz.configure
       data:
-        entity: climate.werkkamer
+        entity: climate.[CLIMATE ENTITY HERE]
         field: /config
         data:
           offset: >
