@@ -1,0 +1,28 @@
+# Change climate.[CLIMATE ENTITY HERE]
+# Change sensor.[SENSOR ENTITY HERE]
+
+- alias: Climate Offset (ROOM)
+  id: climate_offset_ROOM
+  trigger:
+    - platform: state
+      entity_id: sensor.[TEMP SENSOR]
+  action:
+    - service: deconz.configure
+      data:
+        entity: climate.werkkamer
+        field: /config
+        data:
+          offset: >
+            {% set offset = state_attr('climate.[CLIMATE ENTITY HERE]', 'offset') %}
+            {% set temp = states('sensor.[TEMP SENSOR ENTITY HERE]') |int + 0 %}
+            {% set state = state_attr('climate.[CLIMATE ENTITY HERE]', 'current_temperature') |int %}
+
+            {% if state - temp < ('0' |int) %}
+              {{ offset - ((state - temp) * 100) }}
+            {% elif state - temp > ('0' |int) %}
+              {{ offset + ((state - temp) * 100) }}
+            {% elif state - temp == ('0' |int) %}
+              {{ offset }}
+            {% else %}
+              {{ offset }}
+            {% endif %}
